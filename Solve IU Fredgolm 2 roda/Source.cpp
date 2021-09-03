@@ -37,7 +37,7 @@ void MakeGrid(){
 }
 
 
-double Intergal(int i, int k)
+double Integral(int i, int k)
 {
 	int N = 100;
 	double I = 0, l, alfa = X[i], beta = X[i + 1], xi = Xi[k];
@@ -53,6 +53,22 @@ double Intergal(int i, int k)
 double delta(int i, int k) {
 	return (i == k);
 }
+
+double AAA() {
+
+	for (int i = 0; i < n; i++)
+	{
+
+		for (int j = 0; j < n; j++)
+		{
+
+
+			A[i][j] = delta(i, j) - lambda * Integral(j, i);
+		}
+	}
+
+}
+
 
 
 int main()
