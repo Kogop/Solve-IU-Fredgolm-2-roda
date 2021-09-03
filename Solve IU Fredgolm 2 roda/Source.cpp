@@ -37,22 +37,27 @@ void MakeGrid(){
 }
 
 
-double Intergal()
+double Intergal(int i, int k)
 {
-
-	double I;
-	for (int i = 0; i < n-1; i++)
+	int N = 100;
+	double I = 0, l, alfa = X[i], beta = X[i + 1], xi = Xi[k];
+	l = ((beta - alfa) / N);
+	for (int i = 0; i < N-1; i++)
 	{
-		I += f(a + (i + 0.5)*(X[i + 1] - X[i] / n));
+		I += l*ker(xi, alfa + (i + 0.5)*l);
 	}
 
+	return I;
+}
 
+double delta(int i, int k) {
+	return (i == k);
 }
 
 
 int main()
 {
 
-
+	//cout << delta(1, 2);
 	return 1;
 }
