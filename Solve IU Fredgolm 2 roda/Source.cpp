@@ -54,7 +54,7 @@ double delta(int i, int k) {
 	return (i == k);
 }
 
-double AAA() {
+void AAA() {
 
 	for (int i = 0; i < n; i++)
 	{
@@ -73,7 +73,14 @@ double AAA() {
 
 int main()
 {
-
+	for (int i = 0; i < n; i++)
+	{ 
+		for (int j = 0; j < n; j++)
+		{
+			cout << A[i][j];
+		}
+		cout << endl;
+	}
 	//cout << delta(1, 2);
 	return 1;
 }
