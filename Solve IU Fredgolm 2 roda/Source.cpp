@@ -1,12 +1,16 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+
 #include <iostream>
 
+
 using namespace std;
-const int n = 10;
+const int n = 100;
 
 double a = 0, b = 1, lambda = 1.0;
 double h = (b - a) / n;
 
-double X[n + 1], Xi[n], A[n][n + 1], C[n];
+double X[n + 1], Xi[n], A[n][n + 1], C[n], xe[n*10];
 
 double ker(double x,double y) {
 
@@ -22,6 +26,7 @@ double u(double x) {
 double f(double x)
 {
 	return (x * x - lambda * (x / 3.0 - 0.25));
+	//return cos(10*x);
 }
 
 void MakeGrid(){
@@ -94,6 +99,31 @@ void Gauss(int k, double Matrix[n][n + 1]) {
 	}
 }
 
+double fii(double x, int i) {
+
+	if ((x>=X[i]) && (x<X[i+1]))
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+
+
+}
+
+double Un(double x) {
+	double un = 0;
+
+	for (int i = 0; i < n; i++)
+	{
+		un += C[i] * fii(x, i);
+	}
+	return un;
+}
+
+
 
 int main()
 {
@@ -118,12 +148,33 @@ int main()
 		}
 		cout << endl;
 	}
+
+	for (int i = 0; i < n; i++)
+	{
+		C[i] = A[i][n];
+	}
+	int k = 0;
+
+
+
+	for (int i = 0; i < n * 10; i++)
+	{
+		xe[i] = a + (b - a) / (n * 10) * i;
+
+		printf("Xe = %g\n", xe[k]);
+		k++;
+	};
+
+	
+	
 	//cout << delta(1, 2);
 
-	//FILE* tab_file = fopen("result.txt", "w");
-
-	//fprintf(tab_file, "%10.6f\n", u_n(x));
-	//fclose(tab_file);
+	FILE* tab_file = fopen("result.xls", "w");
+	for (int i = 0; i < n * 10; i++)
+	{
+		fprintf(tab_file, "%10.6f\n", Un(xe[i])); ;
+	}
+	fclose(tab_file);
 
 	return 1;
 }
