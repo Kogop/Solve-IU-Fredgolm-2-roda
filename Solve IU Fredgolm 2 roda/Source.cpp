@@ -3,7 +3,7 @@
 using namespace std;
 const int n = 10;
 
-double a = 0, b = 1, lambda = 1;
+double a = 0, b = 1, lambda = 1.0;
 double h = (b - a) / n;
 
 double X[n + 1], Xi[n], A[n][n + 1], C[n];
@@ -21,7 +21,7 @@ double u(double x) {
 
 double f(double x)
 {
-	return x * x - lambda * (x * 3 - (1 / 4));
+	return (x * x - lambda * (x / 3.0 - 0.25));
 }
 
 void MakeGrid(){
@@ -32,7 +32,7 @@ void MakeGrid(){
 	}
 	for (int i = 0; i < n; i++)
 	{
-		Xi[i] = X[i] + h / 2;
+		Xi[i] = X[i] + h / 2.0;
 	}
 }
 
@@ -42,7 +42,7 @@ double Integral(int i, int k)
 	int N = 100;
 	double I = 0, l, alfa = X[i], beta = X[i + 1], xi = Xi[k];
 	l = ((beta - alfa) / N);
-	for (int i = 0; i < N-1; i++)
+	for (int i = 0; i < N; i++)
 	{
 		I += l*ker(xi, alfa + (i + 0.5)*l);
 	}
@@ -66,21 +66,64 @@ void AAA() {
 			A[i][j] = delta(i, j) - lambda * Integral(j, i);
 		}
 	}
-
+	for (int i = 0; i < n; i++)
+	{
+		A[i][n] = f(Xi[i]);
+	}
 }
 
+
+void Gauss(int k, double Matrix[n][n + 1]) {
+	if (Matrix[k][k] != 1) {
+		double T = Matrix[k][k];
+		for (int j = k; j < n + 1; j++) {
+			Matrix[k][j] = Matrix[k][j] / T;
+		}
+	}
+	for (int i = 0; i < n; i++) {
+		if ((Matrix[i][k] != 0) && (i != k)) {
+			double T = Matrix[i][k];
+			Matrix[i][k] = 0;
+			for (int j = k + 1; j < n + 1; j++) {
+				Matrix[i][j] -= Matrix[k][j] * T;
+			}
+		}
+	}
+	if (k < n - 1) {
+		Gauss(k + 1, Matrix);
+	}
+}
 
 
 int main()
 {
+	MakeGrid();
+	AAA();
+
 	for (int i = 0; i < n; i++)
 	{ 
-		for (int j = 0; j < n; j++)
+		for (int j = 0; j < n+1; j++)
 		{
-			cout << A[i][j];
+			cout << A[i][j]<< "  ";
+		}
+		cout << endl;
+	}
+	Gauss(0, A);
+
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n + 1; j++)
+		{
+			cout << A[i][j] << "  ";
 		}
 		cout << endl;
 	}
 	//cout << delta(1, 2);
+
+	//FILE* tab_file = fopen("result.txt", "w");
+
+	//fprintf(tab_file, "%10.6f\n", u_n(x));
+	//fclose(tab_file);
+
 	return 1;
 }
