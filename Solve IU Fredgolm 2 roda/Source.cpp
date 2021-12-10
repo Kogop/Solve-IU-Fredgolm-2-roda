@@ -5,7 +5,7 @@
 
 
 using namespace std;
-const long int n = 100;
+const long int n = 1000;
 
 double a = 0, b = 1, lambda = 1.0;
 double h = (b - a) / n;
@@ -169,7 +169,7 @@ int main()
 	
 	//cout << delta(1, 2);
 
-	FILE* tab_file = fopen("result1.xls", "w");
+	FILE* tab_file = fopen("result2.xls", "w");
 	for (int i = 0; i < n * 10; i++)
 	{
 		fprintf(tab_file, "%10.6f\n", Un(xe[i])); ;
