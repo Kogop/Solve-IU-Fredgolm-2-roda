@@ -34,22 +34,40 @@ void MakeGrid(){
 	for (int i = 0; i <= n; i++)
 	{
 		X[i] = a + i * h;
+		//cout << X[i] << " = X[i]" << endl;
 	}
 	for (int i = 0; i < n; i++)
 	{
 		Xi[i] = X[i] + h / 2.0;
+		//cout << Xi[i] << " = Xi[i]" << endl;
 	}
 }
 
 
-double Integral(int i, int k)
+
+double fII(double x, int j) {
+
+	if ((x >= X[j - 1]) && (x < X[j]))
+	{
+		return ((x - X[j - 1]) / (X[j] - X[j - 1]));
+	}
+	else if ((x >= X[j]) && (x <= X[j + 1]))
+	{
+		return ((X[j + 1]) - x / (X[j + 1] - X[j]));
+	}
+
+
+
+}
+
+double Integral(int j, int k)
 {
 	int N = 100;
-	double I = 0, l, alfa = X[i], beta = X[i + 1], xi = Xi[k];
+	double I = 0, l, alfa = X[j - 1], beta = X[j + 1], xi = Xi[k];
 	l = ((beta - alfa) / N);
 	for (int i = 0; i < N; i++)
 	{
-		I += l*ker(xi, alfa + (i + 0.5)*l);
+		I += l * ker(xi, alfa + (i + 0.5) * l) * fII(alfa + (i + 0.5) * l, j);
 	}
 
 	return I;
@@ -110,15 +128,18 @@ double fii(double x, int i) {
 		return 0;
 	}
 
-
 }
+
+
+
+
 
 double Un(double x) {
 	double un = 0;
 
 	for (int i = 0; i < n; i++)
 	{
-		un += C[i] * fii(x, i);
+		un += C[i] * fII(x, i);
 	}
 	return un;
 }
@@ -169,12 +190,12 @@ int main()
 	
 	//cout << delta(1, 2);
 
-	FILE* tab_file = fopen("result3.xls", "w");
-	for (int i = 0; i < n * 10; i++)
+	FILE* tab_file = fopen("result4.xls", "w");
+	for (int i = 0; i < n*10; i++)
 	{
 		fprintf(tab_file, "%10.6f\n", Un(xe[i])); ;
 	}
 	fclose(tab_file);
-
+	//system("pause");
 	return 1;
 }
