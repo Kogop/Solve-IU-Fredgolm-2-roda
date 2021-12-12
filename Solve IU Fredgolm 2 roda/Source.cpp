@@ -5,7 +5,7 @@
 
 
 using namespace std;
-const long int n = 10;
+const int n = 10;
 
 double a = 0, b = 1, lambda = 1.0;
 double h = (b - a) / n;
@@ -31,7 +31,7 @@ double f(double x)
 
 void MakeGrid() {
 
-	for (int i = 0; i < n+1; i++)
+	for (int i = 0; i < n + 1; i++)
 	{
 		X[i] = a + i * h;
 		//cout << X[i] << " = X[i]" << endl;
@@ -61,10 +61,11 @@ double fII(double x, int j) {
 	}
 }
 
+
 double Integral(int i, int j)
 {
 	int N = 100;
-	double I = 0, l, alfa = X[j - 1], beta = X[j + 1], xi = Xi[i];
+	double I = 0, l, alfa = X[j - 1], beta = X[j], xi = Xi[i - 1];
 	l = ((beta - alfa) / N);
 	for (int k = 0; k < N; k++)
 	{
@@ -97,23 +98,23 @@ void AAA() {
 }
 
 
-void Gauss(int k, double Matrix[n-1][n]) {
+void Gauss(int k, double Matrix[n - 1][n]) {
 	if (Matrix[k][k] != 1) {
 		double T = Matrix[k][k];
 		for (int j = k; j < n; j++) {
 			Matrix[k][j] = Matrix[k][j] / T;
 		}
 	}
-	for (int i = 0; i < n-1; i++) {
-		if ((Matrix[i][k] != 0) && (i != k)) {
+	for (int i = 0; i < n - 1; i++) {
+		if ((Matrix[i][k] != 0.0) && (i != k)) {
 			double T = Matrix[i][k];
-			Matrix[i][k] = 0;
-			for (int j = k + 1; j < n ; j++) {
+			Matrix[i][k] = 0.0;
+			for (int j = k + 1; j < n; j++) {
 				Matrix[i][j] -= Matrix[k][j] * T;
 			}
 		}
 	}
-	if (k < n - 2) {
+	if (k < n-2) {
 		Gauss(k + 1, Matrix);
 	}
 }
@@ -138,7 +139,7 @@ void Gauss(int k, double Matrix[n-1][n]) {
 double Un(double x) {
 	double un = 0;
 
-	for (int i = 0; i < n-1; i++)
+	for (int i = 0; i < n - 1; i++)
 	{
 		un += C[i] * fII(x, i + 1);
 	}
@@ -152,17 +153,17 @@ int main()
 	MakeGrid();
 	AAA();
 
-	for (int i = 0; i < n-1; i++)
-	{ 
+	for (int i = 0; i < n - 1; i++)
+	{
 		for (int j = 0; j < n; j++)
 		{
-			cout << A[i][j]<< "  ";
+			cout << A[i][j] << "  ";
 		}
 		cout << endl;
 	}
 	Gauss(0, A);
 
-	for (int i = 0; i < n-1; i++)
+	for (int i = 0; i < n - 1; i++)
 	{
 		for (int j = 0; j < n; j++)
 		{
@@ -171,9 +172,9 @@ int main()
 		cout << endl;
 	}
 
-	for (int i = 0; i < n-1; i++)
+	for (int i = 0; i < n - 1; i++)
 	{
-		C[i] = A[i][n-1];
+		C[i] = A[i][n - 1];
 	}
 	int k = 0;
 
@@ -181,18 +182,18 @@ int main()
 
 	for (int i = 0; i < n * 10; i++)
 	{
-		xe[i] = a + (b - a) / (n * 10) * i;
+		xe[i] = a + (b - a) / (n * 10.0) * i;
 
-		printf("Xe = %g\n", xe[k]);
+		//printf("Xe = %g\n", xe[k]);
 		k++;
 	};
 
-	
-	
+
+
 	//cout << delta(1, 2);
 
-	FILE* tab_file = fopen("result4.xls", "w");
-	for (int i = 0; i < n*10; i++)
+	FILE* tab_file = fopen("result5.xls", "w");
+	for (int i = 0; i < n * 10; i++)
 	{
 		fprintf(tab_file, "%10.6f\n", Un(xe[i])); ;
 	}
