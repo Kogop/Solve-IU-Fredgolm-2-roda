@@ -49,7 +49,7 @@ double Integral(int i, int k)
 	l = ((beta - alfa) / N);
 	for (int i = 0; i < N; i++)
 	{
-		I += l*ker(xi, alfa + (i + 0.5)*l);
+		I += l * ker(xi, alfa + (i + 0.5) * l);
 	}
 
 	return I;
